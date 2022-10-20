@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 20. Okt 2022 um 12:42
+-- Erstellungszeit: 20. Okt 2022 um 16:39
 -- Server-Version: 10.4.24-MariaDB
 -- PHP-Version: 8.1.6
 
@@ -26,22 +26,41 @@ USE `151_projektarbeit`;
 -- --------------------------------------------------------
 
 --
+-- Tabellenstruktur für Tabelle `asset`
+--
+
+CREATE TABLE `asset` (
+  `id` int(11) NOT NULL,
+  `image` blob NOT NULL,
+  `title` varchar(100) DEFAULT NULL,
+  `description` varchar(300) DEFAULT NULL,
+  `fk_user_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Tabellenstruktur für Tabelle `user`
 --
 
-DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `id` int(10) UNSIGNED NOT NULL,
   `vorname` varchar(30) NOT NULL,
   `nachname` varchar(30) NOT NULL,
   `email` varchar(100) NOT NULL,
   `username` varchar(30) NOT NULL,
-  `password` int(255) NOT NULL
+  `password` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Indizes der exportierten Tabellen
 --
+
+--
+-- Indizes für die Tabelle `asset`
+--
+ALTER TABLE `asset`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indizes für die Tabelle `user`
@@ -52,6 +71,12 @@ ALTER TABLE `user`
 --
 -- AUTO_INCREMENT für exportierte Tabellen
 --
+
+--
+-- AUTO_INCREMENT für Tabelle `asset`
+--
+ALTER TABLE `asset`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT für Tabelle `user`
