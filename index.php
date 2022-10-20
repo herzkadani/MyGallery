@@ -1,6 +1,4 @@
 <?php
-$error = '';
-$message = '';
 $htmloutput = '';
 session_start();
 
