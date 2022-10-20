@@ -1,11 +1,11 @@
 <?php
-$host = 'localhost'; // host
-$username = 'webapp151'; // username
-$password = 'Z-PrzNE4f)e*br5r'; // password
+$dbhost = 'localhost'; // host
+$dbusername = 'webapp151'; // username
+$dbpassword = 'Z-PrzNE4f)e*br5r'; // password
 $database = '151_projektarbeit'; // database
 
 // mit der Datenbank verbinden
-$mysqli = new mysqli($host, $username, $password, $database);
+$mysqli = new mysqli($dbhost, $dbusername, $dbpassword, $database);
 
 // Fehlermeldung, falls Verbindung fehl schlägt.
 if ($mysqli->connect_error) {
