@@ -1,15 +1,36 @@
 <?php
-$htmloutput = '<div class="asset">
-<img src="https://riskinfo.com.au/resource-centre/files/2014/05/test-img.jpg" alt="asset">
-<h2>Titel</h2>
-<p>Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua.</p>
-<form action="" method="">
-<input type="submit" value="Edit">
-<input type="submit" value="Delete">
-</form>
-</div>';
-for ($i=0; $i < 3; $i++) { 
-    $htmloutput .= $htmloutput;
+include 'dbconnector.inc.php';
+
+//check if user is logged in
+session_start();
+if(!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true){
+    $error="Sie müssen sich zuerst auf der <a href=\"login.php\">Login-Seite</a> anmelden um auf diese Seite zugreifen zu können.";
+    header("Location: login.php");
+    die();
+}
+
+//get all assets from user and display them
+$userid = $_SESSION['user_id'];
+$sql = "SELECT * FROM asset WHERE fk_user_id = $userid";
+$result = $mysqli->query($sql);
+
+if ($result->num_rows > 0) {
+    // output data of each row
+    while($row = $result->fetch_assoc()) {
+        $htmloutput = '<div class="asset">
+                                <img src="data:image/jpeg;base64,'.base64_encode($row['image']).'" alt="'.$row['title'].'"/>
+                                <h2>'.$row['title'].'</h2>
+                                <p>'.$row['description'].'</p>
+                                <form action="asset.php" method="POST">
+                                    <input type="hidden" name="asset_id" value="'.$row['id'].'">
+                                    <input type="submit" value="Edit" name="edit">
+                                    <input type="submit" value="Delete" name="delete">
+                            </form>
+                        </div>';
+    }
+
+} else {
+    $htmloutput = "<p style=\"grid-column:1/5; text-align:center;\">Sie haben noch keine Bilder hochgeladen. Lassen Sie sich von anderen Bildern auf der <a href=\"index.php\">Startseite</a> inspirieren.</p>";
 }
 
 ?>
@@ -33,10 +54,11 @@ for ($i=0; $i < 3; $i++) {
 <div class="titlewrapper">
 <h1>MyGallery</h1>
 <p>Hier können Sie eigene Bilder hochladen. Sie können ihre eigenen Bilder bearbeiten und löschen.</p>
-<form action="">
-    <input class="createbutton" type="submit" value="+ Erstellen">
+<form action="asset.php" method="POST">
+    <input class="createbutton" type="submit" value="+ Hochladen" name="create">
 </form>
 </div>
+<div class="titlewrapper"><h2>Meine Bilder</h2></div>
 <div class="wrapper">
 <?=$htmloutput?>
 </div>
