@@ -49,7 +49,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 				if(password_verify($password, $row['password'])){
 					$message = "Anmeldung erfolgreich. <br />";
 					session_start();
-					$_SESSION['username'] = $username;
 					$_SESSION['user_id'] = $row['id'];
 					$_SESSION['loggedin'] = true;
 					session_regenerate_id(true);
@@ -108,7 +107,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 					echo "<div class=\"alert alert-danger\" role=\"alert\">" . $error . "</div>";
 				}
 			?>
-			<form action="" method="POST">
+			<form action="login.php" method="POST">
 				<div class="form-group">
 					<label for="username">Benutzername *</label>
 					<input type="text" name="username" class="form-control" id="username"
@@ -117,7 +116,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 						pattern="(?=.*[a-z])(?=.*[A-Z])[a-zA-Z]{6,}"
 						title="Gross- und Keinbuchstaben, min 6 Zeichen."
 						maxlength="30" 
-						required="true">
+						required>
 				</div>
 				<!-- password -->
 				<div class="form-group">
@@ -127,7 +126,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 						pattern="(?=^.{8,}$)((?=.*\d+)(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"
 						title="mindestens einen Gross-, einen Kleinbuchstaben, eine Zahl und ein Sonderzeichen, mindestens 8 Zeichen lang,keine Umlaute."
 						maxlength="255"
-						required="true">
+						required>
 				</div>
 		  		<button type="submit" name="button" value="submit" class="btn btn-info">Senden</button>
 		  		<button type="reset" name="button" value="reset" class="btn btn-warning">Löschen</button>

@@ -96,7 +96,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
           echo "<div class=\"alert alert-success\" role=\"alert\">" . $message . "</div>";
         }
       ?>
-                <form action="" method="post">
+                <form action="register.php" method="post">
                     <!-- TODO: Clientseitige Validierung: vorname -->
                     <div class="form-group">
                         <label for="firstname">Vorname *</label>
