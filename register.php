@@ -20,7 +20,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
     // Prüfen, ob alle Felder ausgefüllt sind
     if (!(!empty($firstname) && strlen($firstname)<=30)) $error .= "Geben Sie bitte einen korrekten Vornamen ein. <br>";
     if (!(!empty($lastname) && strlen($lastname)<=30)) $error .= "Geben Sie bitte einen korrekten Nachnamen ein. <br>";
-   if (!(!empty($_email) && strlen($email)<=100 && preg_match(" /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/ ", $email))) $error .= "Geben Sie bitte eine korrekte E-Mail-Adresse ein. <br>";
+   if (!(!empty($email) && strlen($email)<=100 && preg_match(" /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/ ", $email))) $error .= "Geben Sie bitte eine korrekte E-Mail-Adresse ein. <br>";
    if (!(trim($username) && preg_match(" /(?=.*[a-z])(?=.*[A-Z])[a-zA-Z]{6,30}/ ", $username))) {
     $error .= "Geben Sie bitte einen korrekten Benutzernamen ein. <br>";
    } else{
