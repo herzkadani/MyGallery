@@ -28,7 +28,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
     $result = $mysqli->query($sql);
     $row = $result->fetch_assoc();
 
+
+
     if(password_verify($_POST['password'], $row['password'])){
+        
+        if (!(!empty($firstname) && strlen($firstname)<=30)) $error .= "Geben Sie bitte einen korrekten Vornamen ein. <br>";
+        if (!(!empty($lastname) && strlen($lastname)<=30)) $error .= "Geben Sie bitte einen korrekten Nachnamen ein. <br>";
+       if (!(!empty($_email) && strlen($email)<=100 && preg_match(" /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/ ", $email))) $error .= "Geben Sie bitte eine korrekte E-Mail-Adresse ein. <br>";
+       if (!(trim($username) && preg_match(" /(?=.*[a-z])(?=.*[A-Z])[a-zA-Z]{6,30}/ ", $username))) {
+        $error .= "Geben Sie bitte einen korrekten Benutzernamen ein. <br>";
+       } else{
         //check if new username is already taken
         $sql = "SELECT * FROM user WHERE username = ?";
         $stmt = $mysqli->prepare($sql);
@@ -38,9 +47,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
         $row = $result->fetch_assoc();
 
         if($result->num_rows >0 && $row['username'] == $_POST['username'] && $row['id'] != $_SESSION['user_id']){
-            $error = 'Dieser Benutzername ist bereits vergeben.';
-        }else{
+            $error .= 'Dieser Benutzername ist bereits vergeben.';
+        }
 
+        }
+        
+       }else{
+        $error .= "Das Passwort ist falsch.<br />";
+    }
+       
+    if(empty($error)){
+        
         $sql = "UPDATE user SET vorname = ?, nachname = ?, email = ?, username = ? WHERE id = ?";
         $stmt = $mysqli->prepare($sql);
         $firstname = trim($_POST['firstname']);
@@ -58,11 +75,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
         }
 
         $message = 'Ihre Daten wurden erfolgreich aktualisiert.';
-
-        }
-        
-    }else{
-        $error .= "Das Passwort ist falsch.<br />";
     }
 }
 ?>
@@ -100,35 +112,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
         }
       ?>
                 <form action="account.php" method="post">
-                    <!-- TODO: Clientseitige Validierung: vorname -->
                     <div class="form-group">
                         <label for="firstname">Vorname *</label>
                         <input type="text" name="firstname" class="form-control" id="firstname" value="<?=$firstname?>" maxlength="30" required placeholder="Geben Sie Ihren Vornamen an.">
                     </div>
-                    <!-- TODO: Clientseitige Validierung: nachname -->
                     <div class="form-group">
                         <label for="lastname">Nachname *</label>
                         <input type="text" name="lastname" class="form-control" id="lastname" value="<?=$lastname?>" maxlength="30" required placeholder="Geben Sie Ihren Nachnamen an">
                     </div>
-                    <!-- TODO: Clientseitige Validierung: email -->
                     <div class="form-group">
                         <label for="email">Email *</label>
                         <input type="email" name="email" class="form-control" id="email" value="<?=$email?>" maxlength="100" required placeholder="Geben Sie Ihre Email-Adresse an.">
                     </div>
-                    <!-- TODO: Clientseitige Validierung: benutzername -->
                     <div class="form-group">
                         <label for="username">Benutzername *</label>
-                        <input type="text" name="username" class="form-control" id="username" value="<?=$username?>" maxlength="30" required placeholder="Gross- und Keinbuchstaben, min 6 Zeichen.">
+                        <input type="text" name="username" class="form-control" id="username" value="<?=$username?>" maxlength="30" required placeholder="Gross- und Keinbuchstaben, min 6 Zeichen." pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,30}">
                     </div>
-                    <!-- TODO: Clientseitige Validierung: password -->
                     <div class="form-group">
                         <label for="password">Password *</label>
-                        <input type="password" name="password" class="form-control" id="password" maxlength="255" required placeholder="Gross- und Kleinbuchstaben, Zahlen, Sonderzeichen, min. 8 Zeichen, keine Umlaute">
+                        <input type="password" name="password" class="form-control" id="password" maxlength="255" required placeholder="Gross- und Kleinbuchstaben, Zahlen, Sonderzeichen, min. 8 Zeichen" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,255}">
                     </div>
-                    <!-- TODO: Clientseitige Validierung: password -->
                     <div class="form-group">
                         <label for="newpassword">Neues Passwort</label>
-                        <input type="password" name="newpassword" class="form-control" id="newpassword" maxlength="255" placeholder="Gross- und Kleinbuchstaben, Zahlen, Sonderzeichen, min. 8 Zeichen, keine Umlaute">
+                        <input type="password" name="newpassword" class="form-control" id="newpassword" maxlength="255" placeholder="Gross- und Kleinbuchstaben, Zahlen, Sonderzeichen, min. 8 Zeichen" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,255}">
                     </div>
                     <button type="submit" name="button" value="submit" class="btn btn-info">Senden</button>
                     <button type="reset" name="button" value="reset" class="btn btn-warning">Löschen</button>

@@ -24,8 +24,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 	}
 	// password
 	if(isset($_POST['password'])){
-		//trim
-		$password = trim($_POST['password']);
+		
+		$password = $_POST['password'];
 		// passwort gültig?
 		if(empty($password) || !preg_match("/(?=^.{8,255}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/", $password)){
 			$error .= "Das Passwort entspricht nicht dem geforderten Format.<br />";
