@@ -35,11 +35,8 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
         // create html page for editing an asset
         //get asset from database
         $assetid = $_POST['asset_id'];
-        $sql = "SELECT * FROM asset WHERE id = ?";
-        $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("i", $assetid);
-        $stmt->execute();
-        $result = $stmt->get_result();
+        $sql = "SELECT * FROM asset WHERE id = $assetid";
+        $result = $mysqli->query($sql);
         $row = $result->fetch_assoc();
 
         // check if asset belongs to user

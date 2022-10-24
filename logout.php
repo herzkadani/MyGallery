@@ -4,7 +4,7 @@ $message = '';
 $error = '';
 
 session_start();
-if($_SESSION['loggedin'] == true){
+if(isset($_SESSION['loggedin'])&&$_SESSION['loggedin'] == true){
   session_destroy();
   $_SESSION = array();
   $message = 'Sie wurden erfolgreich ausgeloggt. Klicken Sie hier um sich erneut anzumelden: <a href="login.php">Login</a>';
@@ -12,6 +12,8 @@ if($_SESSION['loggedin'] == true){
   die();
 }else{
   $error = 'Sie sind nicht angemeldet. Klicken Sie hier um sich anzumelden: <a href="login.php">Login</a>';
+  header("Location: login.php");
+  die();
 }
 
 

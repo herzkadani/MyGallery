@@ -10,10 +10,10 @@ if(isset($_SESSION['user_id'])&&$_SESSION['loggedin']){
     $sql = "SELECT * FROM user WHERE id = ".$_SESSION['user_id'];
     $result = $mysqli->query($sql);
     $row = $result->fetch_assoc();
-    $firstname = $row['vorname'];
-    $lastname = $row['nachname'];
-    $email = $row['email'];
-    $username = $row['username'];
+    $firstname = htmlspecialchars($row['vorname']);
+    $lastname = htmlspecialchars($row['nachname']);
+    $email = htmlspecialchars($row['email']);
+    $username = htmlspecialchars($row['username']);
 }else{
     $error = 'Sie sind nicht eingeloggt.';
     header("Location: login.php");
@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
 
     if(password_verify($_POST['password'], $row['password'])){
-        
+
         if (!(!empty($firstname) && strlen($firstname)<=30)) $error .= "Geben Sie bitte einen korrekten Vornamen ein. <br>";
         if (!(!empty($lastname) && strlen($lastname)<=30)) $error .= "Geben Sie bitte einen korrekten Nachnamen ein. <br>";
        if (!(!empty($_email) && strlen($email)<=100 && preg_match(" /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/ ", $email))) $error .= "Geben Sie bitte eine korrekte E-Mail-Adresse ein. <br>";
