@@ -11,9 +11,8 @@ if ($result->num_rows > 0) {
     // output data of each row
     while($row = $result->fetch_assoc()) {
         $htmloutput.='<div class="asset">
-                        <img src="data:image/jpeg;base64,'.base64_encode($row['image']).'" alt="'.$row['title'].'"/>
-                        <h2>'.$row['title'].'</h2>
-                        <p>'.$row['description'].'</p>
+                        <h2>'.htmlspecialchars($row['title']).'</h2>
+                        <p>'.htmlspecialchars($row['description']).'</p>
                         </div>';
     }
 } 

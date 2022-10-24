@@ -1,6 +1,8 @@
 <?php
 include 'dbconnector.inc.php';
 
+$htmloutput = '';
+
 //check if user is logged in
 session_start();
 if(!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true){
@@ -16,11 +18,12 @@ $result = $mysqli->query($sql);
 
 if ($result->num_rows > 0) {
     // output data of each row
+
+
     while($row = $result->fetch_assoc()) {
-        $htmloutput = '<div class="asset">
-                                <img src="data:image/jpeg;base64,'.base64_encode($row['image']).'" alt="'.$row['title'].'"/>
-                                <h2>'.$row['title'].'</h2>
-                                <p>'.$row['description'].'</p>
+        $htmloutput .= '<div class="asset">
+                                <h2>'.htmlspecialchars($row['title']).'</h2>
+                                <p>'.htmlspecialchars($row['description']).'</p>
                                 <form action="asset.php" method="POST">
                                     <input type="hidden" name="asset_id" value="'.$row['id'].'">
                                     <input type="submit" value="Edit" name="edit">
