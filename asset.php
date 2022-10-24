@@ -1,10 +1,4 @@
 <?php
-if(!empty($_POST)){
-    echo '<pre>';
-    print_r($_POST);
-    echo '</pre>';
-}
-
 $error = "";
 $pagetitle='Asset';
 $title='';
